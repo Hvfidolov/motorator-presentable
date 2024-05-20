@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorcycle Reviews</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <script>
+        function stopComparison() {
+            window.location.href = '/motorcycles';
+        }
+    </script>
+    <style>
+        .container {
+            background: rgba(255, 255, 255, 0.94);
+            border: 2px solid black; /* Red border */
+            border-radius: .25rem; /* Rounded corners */
+            padding: 1rem; /* Padding */
+            margin: 1rem 0; /* Margin */
+            box-shadow: 0 0 10px black; /* Glow effect */
+        }
+        body {
+            background-image: url("https://cdn-fastly.motorcycle.com/media/2023/03/28/11371387/the-best-motorcycle-cameras-to-document-your-rides.jpg?size=1200x628"); /* URL to your background image */
+            background-size: cover; /* Make sure the image covers the entire page */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            height: 100vh; /* Ensure the body takes the full height of the viewport */
+            margin: 0; /* Remove default margin */
+            display: flex; /* Use flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 th:text="${motorcycle.name} + ' Reviews'"></h1>
+
+    <div class="text-right mt-3">
+        <button class="btn btn-outline-danger btn-outline-primary" onclick="stopComparison()">Back to Motorcycles</button>
+    </div>
+    <div class="mb-3">
+        <h2>Write a Review</h2>
+        <form th:action="@{/motorcycles/review}" th:object="${newReview}" method="post">
+            <input type="hidden" id="motorcycleId" name="motorcycleId" th:value="${motorcycle.id}" />
+            <div class="form-group">
+                <label for="content">Review</label>
+                <textarea id="content" th:field="*{content}" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-danger btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Existing Reviews</h2>
+        <div th:each="review : ${reviews}">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${review.getWebUser().getUsername()}"></h5>
+                    <p class="card-text" th:text="${review.getContent()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
