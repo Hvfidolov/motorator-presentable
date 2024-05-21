@@ -22,7 +22,6 @@ public class Motorcycle {
     private String category;
     private double price;
     private String imageFileName;
-    @OneToMany(mappedBy = "motorcycle")
+    @OneToMany(mappedBy = "motorcycle" , cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Review> reviews;
-
 }
